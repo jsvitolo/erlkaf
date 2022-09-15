@@ -10,6 +10,7 @@
 ]).
 
 start(_StartType, _StartArgs) ->
+    ?LOG_INFO("STARTANDO", []),
     ok = erlkaf_cache_client:create(),
     {ok, Pid} = erlkaf_sup:start_link(),
     ok = start_clients(),
@@ -30,6 +31,7 @@ start_client({ClientId, C}) ->
     Type = erlkaf_utils:lookup(type, C),
     ClientOpts = erlkaf_utils:lookup(client_options, C, []),
     Topics = erlkaf_utils:lookup(topics, C, []),
+    ?LOG_INFO("STONE START CLIENT: ~p", [ClientOpts]),
 
     case Type of
         producer ->
